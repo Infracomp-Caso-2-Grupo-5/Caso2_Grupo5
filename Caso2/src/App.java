@@ -45,7 +45,6 @@ public class App {
     }
 
     public static int leerArchivoTexto(String ruta) {
-        // TODO: Implement the method to read the text file and return its length
         int length = 0;
         try (BufferedReader br = new BufferedReader(new java.io.FileReader(ruta))) {
             while (br.readLine() != null) {
