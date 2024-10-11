@@ -86,7 +86,7 @@ public class Imagen {
     * @pre la longitud del mensaje en bits debe ser menor que el numero de pixels de la imagen * 3
     * @pos la longitud del mensaje y el mensaje completo están escondidos en la imagen
     */
-    public void esconder( char [] mensaje, int longitud) { int contador=0;
+    public void esconder(char [] mensaje, int longitud) { int contador=0;
         byte elByte; escribirBits(contador,longitud,16) ;
         // La longitud del mensaje se esconderá en los primeros 16 bytes.
         // Eso es el equivalente a 2 caracteres (en necesidad de almacenamiento).
