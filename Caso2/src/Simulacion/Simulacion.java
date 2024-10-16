@@ -70,7 +70,7 @@ public class Simulacion {
         System.out.println("RAM: " + Arrays.toString(RAM));
         System.out.println("Tabla de páginas: " + pageTable);
         System.out.println("Hits: " + hits + ", Fallos: " + fallos);
-        System.out.println("Porcentaje de Hits sobre Misses :" + (((float) hits / (float) referencias.size()) * 100));
+        System.out.println("Porcentaje de Hits sobre Misses: " + (((float) hits / (float) referencias.size()) * 100)+"%");
     }
 
     public class PaginaThread extends Thread {
