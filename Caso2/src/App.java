@@ -71,12 +71,37 @@ public class App {
                 Simulacion simulacion = new Simulacion(numMarcos, referencias);
                 simulacion.iniciar();
             } else if (opcion==3){
+            	scanner.nextLine();
                 System.out.println("Ingrese la ruta (path) de la imagen en la que desea esconder el mensaje");
-                String input=scanner.nextLine();
-                Imagen imagen= new Imagen(input);
+             // Ejemplo de ruta: "Archivos/caso2-parrots.bmp"
+                String input = scanner.nextLine();
+                System.out.println("Ruta ingresada: " + input);
+                Imagen imagen = new Imagen(input);
+                System.out.println("Ingrese el mensaje que desea esconder:");
+                String mensajeStr = scanner.nextLine();
+                char[] mensaje = mensajeStr.toCharArray();
+                imagen.esconder(mensaje, mensaje.length);
+                System.out.println("Ingrese el nombre para guardar la imagen con el mensaje escondido:");
+                String output = scanner.nextLine();
+                imagen.escribirImagen(output);
+
+                System.out.println("Mensaje escondido correctamente en la imagen.");
+
                 
             } else if(opcion==4){
+            	scanner.nextLine();
                 System.out.println("Ingrese la ruta (path) de la imagen encriptada cuyo mensaje desea revelar");
+                String input = scanner.nextLine();
+                Imagen imagen = new Imagen(input);
+                int longitud = imagen.leerLongitud();
+                System.out.println("Longitud del mensaje escondido: " + longitud);
+                char[] mensajeRecuperado = new char[longitud];
+
+                imagen.recuperar(mensajeRecuperado, longitud);
+
+           
+                System.out.println("Mensaje recuperado: " + new String(mensajeRecuperado));
+
 
             }else if(opcion==5){
                 System.out.println("Gracias por usar el programa");
