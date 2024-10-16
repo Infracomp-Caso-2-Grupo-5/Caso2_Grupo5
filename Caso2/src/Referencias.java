@@ -15,7 +15,7 @@ public class Referencias {
 
         int NF = imagen.alto;
         int NC = imagen.ancho;
-        int NR = (longitud + 17) * 16;
+        int NR = (longitud * 17) + 16;
 
         double div = (double) longitud / P;
         int res = (int) Math.ceil(div);
@@ -44,7 +44,7 @@ public class Referencias {
             for (int j = 0; j < copyImagen[i].length; j++) { // Columna j
                 for (int k = 0; k < copyImagen[i][j].length; k++) { // k = R, G, B
 
-                    if (bytesTotales < (longitudMensaje + 8) * 16) {
+                    if (bytesTotales < (longitudMensaje * 8) + 16) {
 
                         if (bytesTotales >= 15 && bytesTotales%8 == 0 && bitsCaracter%8 == 0){
                             posCaracter = bitsCaracter/8;
