@@ -1,10 +1,10 @@
 package Simulacion;
+
 import java.util.*;
-import java.io.*;
 
 public class Simulacion {
     private static int NUM_MARCOS;
-    private static final int TIEMPO_ACTUALIZACION = 1; 
+    private static final int TIEMPO_ACTUALIZACION = 1;
     private static final int TIEMPO_BIT_R = 2;
 
     private LinkedHashMap<Integer, Boolean> pageTable;
@@ -12,20 +12,20 @@ public class Simulacion {
     private int hits = 0;
     private int fallos = 0;
     private List<Integer> referencias;
+    private boolean ejecutar = true;
 
     public Simulacion(int numMarcos, List<Integer> referencias) {
         NUM_MARCOS = numMarcos;
         this.pageTable = new LinkedHashMap<>(NUM_MARCOS, 0.75f, true);
         this.RAM = new int[NUM_MARCOS];
         Arrays.fill(RAM, -1);
-        this.referencias= referencias;
+        this.referencias = referencias;
     }
 
     public synchronized void cargarPagina(int paginaVirtual) {
         if (pageTable.containsKey(paginaVirtual)) {
             hits++;
             pageTable.put(paginaVirtual, true);
-            System.out.println("Hit: Página " + paginaVirtual + " ya está en RAM.");
         } else {
             fallos++;
             if (pageTable.size() >= NUM_MARCOS) {
@@ -34,18 +34,16 @@ public class Simulacion {
                 pageTable.remove(paginaAReemplazar);
                 RAM[marco] = paginaVirtual;
                 pageTable.put(paginaVirtual, true);
-                System.out.println("Reemplazando página " + paginaAReemplazar + " por página " + paginaVirtual);
             } else {
                 int marcoLibre = pageTable.size();
                 RAM[marcoLibre] = paginaVirtual;
                 pageTable.put(paginaVirtual, true);
             }
-            System.out.println("Fallo: Página " + paginaVirtual + " cargada en RAM.");
         }
         notifyAll();
     }
 
-    public void iniciar(){
+    public void iniciar() {
         PaginaThread paginaThread = this.new PaginaThread(referencias);
         BitRThread bitRThread = this.new BitRThread();
         paginaThread.start();
@@ -55,23 +53,24 @@ public class Simulacion {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        // Mostrar el estado final
+        ejecutar = false;
         this.mostrarEstado();
     }
-    
+
     private synchronized int getPosicionEnRam(int paginaVirtual) {
         for (int i = 0; i < RAM.length; i++) {
             if (RAM[i] == paginaVirtual) {
                 return i;
             }
         }
-        return -1; 
+        return -1;
     }
 
     public synchronized void mostrarEstado() {
         System.out.println("RAM: " + Arrays.toString(RAM));
         System.out.println("Tabla de páginas: " + pageTable);
         System.out.println("Hits: " + hits + ", Fallos: " + fallos);
+        System.out.println("Porcentaje de Hits sobre Misses :" + (((float) hits / (float) referencias.size()) * 100));
     }
 
     public class PaginaThread extends Thread {
@@ -80,31 +79,41 @@ public class Simulacion {
         public PaginaThread(List<Integer> referencias) {
             this.referencias = referencias;
         }
+
         @Override
         public void run() {
+            double total = (double) referencias.size();
+            double progreso = 0.0;
+            int porcentajeMostrado = 0;
             for (int referencia : referencias) {
                 synchronized (Simulacion.this) {
                     cargarPagina(referencia);
-                    try {
-                        Thread.sleep(TIEMPO_ACTUALIZACION);
-                    } catch (InterruptedException e) {
-                       e.printStackTrace();
-                    }
+                }
+                progreso++;
+                int porcentaje = (int) Math.round(((progreso) / total) * 100);
+                if (porcentaje % 5 == 0 && porcentaje != porcentajeMostrado) {
+                    porcentajeMostrado = porcentaje;
+                    System.out.println("Progreso en: " + (porcentajeMostrado) + "%");
+                }
+
+                try {
+                    Thread.sleep(TIEMPO_ACTUALIZACION);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
+            ejecutar = false;
         }
     }
 
     public class BitRThread extends Thread {
         @Override
         public void run() {
-            while (true) {
+            while (ejecutar) {
                 synchronized (Simulacion.this) {
                     for (Map.Entry<Integer, Boolean> entry : pageTable.entrySet()) {
                         entry.setValue(false);
                     }
-                    System.out.println("Bit R actualizado para todas las páginas.");
-                    notifyAll();
                 }
                 try {
                     Thread.sleep(TIEMPO_BIT_R);
