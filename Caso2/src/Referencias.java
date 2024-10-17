@@ -20,7 +20,7 @@ public class Referencias {
         double div = (double) longitud / P;
         int res = (int) Math.ceil(div);
 
-        int NP = (imagen.alto * 3 + imagen.ancho) / P + res;
+        int NP = (imagen.alto * 3 * imagen.ancho) / P + res;
 
         byte[][][] copyImagen = imagen.imagen.clone();
 
