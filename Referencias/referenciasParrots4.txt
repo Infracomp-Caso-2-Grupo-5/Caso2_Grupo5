@@ -3,7 +3,7 @@ Longitud=4820
 NC=384
 NF=256
 NR=81956
-NP=23
+NP=1171
 Imagen[0][0][0].R,0,0 ,R
 Imagen[0][0][1].G,0,1 ,R
 Imagen[0][0][2].B,0,2 ,R
@@ -20,7 +20,7 @@ Imagen[0][4][0].R,0,12 ,R
 Imagen[0][4][1].G,0,13 ,R
 Imagen[0][4][2].B,0,14 ,R
 Imagen[0][5][0].R,0,15 ,R
-Mensaje[0],4,128 ,W
+Mensaje[0],1152,128 ,W
 Imagen[0][5][1].G,0,16 ,R
 Mensaje[0],1152,0 ,W
 Imagen[0][5][2].B,0,17 ,R
