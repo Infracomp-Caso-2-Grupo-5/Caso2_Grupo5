@@ -40,6 +40,7 @@ public class App {
             } else if (opcion == 2) {
                 System.out.print("Ingrese el número de marcos: ");
                 int numMarcos = scanner.nextInt();
+                scanner.nextLine();
                 System.out.print("Ingrese el nombre del archivo de referencias (incluya la extensión): ");
                 String nombreArchivo = scanner.nextLine();
                 List<Integer> referencias = new ArrayList<>();
