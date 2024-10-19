@@ -40,7 +40,6 @@ public class Simulacion {
                 pageTable.put(paginaVirtual, true);
             }
         }
-        notifyAll();
     }
 
     public void iniciar() {
