@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import Simulacion.Simulacion;
-
 public class App {
     public static void main(String[] args) {
         Boolean ejecutar = true;
