@@ -17,6 +17,14 @@ public class Simulacion {
         this.RAM = new LinkedHashMap<>(NUM_MARCOS, 0.75f, true);
         this.tablaPaginas = tablaPaginas;
     }
+    public int getRemplazada(LinkedHashMap<Integer, Boolean> RAM){
+        for (Map.Entry<Integer, Boolean> entry : RAM.entrySet()) {
+            if (!entry.getValue()) {
+                return entry.getKey();
+            }
+        }
+        return 0;
+    }
     
 
     public synchronized void cargarPagina(int paginaVirtual) {
@@ -26,7 +34,7 @@ public class Simulacion {
         } else {
             fallos++;
             if (RAM.size() >= NUM_MARCOS) {
-                int paginaAReemplazar = RAM.entrySet().iterator().next().getKey();
+                int paginaAReemplazar = getRemplazada(RAM);
                 RAM.remove(paginaAReemplazar);
                 RAM.put(paginaVirtual, true);
             } else {
